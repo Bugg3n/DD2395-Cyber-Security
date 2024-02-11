@@ -1,0 +1,8 @@
+# task 2
+# problem 1
+# Forge two command line arguments that
+# allow you to be authenticated
+# with a wrong password.
+12345678hello hello
+
+# end
